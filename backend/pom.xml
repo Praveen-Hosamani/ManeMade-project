@@ -31,9 +31,15 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+=======
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+>>>>>>> dbc40b2743e7029068013a83aeeb583049810db7
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

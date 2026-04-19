@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 E:\ManeMade-project\backend\src\main\java\com\manemade\service\ProductService.java
 E:\ManeMade-project\backend\src\main\java\com\manemade\config\CorsConfig.java
 E:\ManeMade-project\backend\src\main\java\com\manemade\model\Product.java
 E:\ManeMade-project\backend\src\main\java\com\manemade\BackendApplication.java
 E:\ManeMade-project\backend\src\main\java\com\manemade\repository\ProductRepository.java
 E:\ManeMade-project\backend\src\main\java\com\manemade\controller\ProductController.java
+=======
+/home/sandesh-chougala/Documents/Up-Void-Tech/ManeMade-project/backend/src/main/java/com/manemade/backend/model/User.java
+/home/sandesh-chougala/Documents/Up-Void-Tech/ManeMade-project/backend/src/main/java/com/manemade/backend/repository/UserRepository.java
+/home/sandesh-chougala/Documents/Up-Void-Tech/ManeMade-project/backend/src/main/java/com/manemade/backend/BackendApplication.java
+/home/sandesh-chougala/Documents/Up-Void-Tech/ManeMade-project/backend/src/main/java/com/manemade/backend/controller/AuthController.java
+/home/sandesh-chougala/Documents/Up-Void-Tech/ManeMade-project/backend/src/main/java/com/manemade/backend/service/AuthService.java
+>>>>>>> dbc40b2743e7029068013a83aeeb583049810db7
