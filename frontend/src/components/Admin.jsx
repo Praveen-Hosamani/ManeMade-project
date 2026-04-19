@@ -4,6 +4,43 @@ import '../styles/admin.css';
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState('orders');
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch users from backend
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:8080/api/users');
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    if (activeTab === 'users') {
+      fetchUsers();
+    }
+  }, [activeTab]);
+
+  const handleDeleteUser = async (id) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      try {
+        const response = await fetch(`http://localhost:8080/api/users/${id}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          setUsers(users.filter(u => u.id !== id));
+        }
+      } catch (error) {
+        console.error('Error deleting user:', error);
+      }
+    }
+  };
 
   // Simulated Orders (moved from dashboard to its own section)
   const recentOrders = [
@@ -136,6 +173,65 @@ const Admin = () => {
     </div>
   );
 
+  const renderUsers = () => (
+    <div className="admin-view fade-in">
+      <div className="section-header">
+        <h2>User Management</h2>
+        <span className="count-badge">{users.length} Users</span>
+      </div>
+      <table className="admin-table users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Account Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {loading ? (
+            <tr><td colSpan="5">Loading users...</td></tr>
+          ) : users.length === 0 ? (
+            <tr><td colSpan="5">No users found.</td></tr>
+          ) : (
+            users.map((user) => (
+              <tr key={user.id}>
+                <td><span className="cell-sub">#{user.id}</span></td>
+                <td>
+                  <div className="cell-stacked">
+                    <span className="cell-main">{user.firstName} {user.lastName}</span>
+                    <span className="cell-sub">Customer</span>
+                  </div>
+                </td>
+                <td><span className="cell-main">{user.email}</span></td>
+                <td><span className="cell-sub">Oct 19, 2023</span></td>
+                <td>
+                  <button 
+                    className="icon-btn delete" 
+                    title="Remove User"
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch(activeTab) {
+      case 'orders': return renderOrders();
+      case 'products': return renderProducts();
+      case 'users': return renderUsers();
+      default: return renderOrders();
+    }
+  };
+
   return (
     <div className="admin-page">
       <aside className="admin-sidebar">
@@ -155,6 +251,12 @@ const Admin = () => {
           >
             <span>🧴</span> Products
           </button>
+          <button 
+            className={`nav-item ${activeTab === 'users' ? 'active' : ''}`}
+            onClick={() => setActiveTab('users')}
+          >
+            <span>👥</span> Users
+          </button>
         </nav>
         <div className="sidebar-footer">
           <button className="logout-btn">Log Out</button>
@@ -163,7 +265,7 @@ const Admin = () => {
 
       <main className="admin-main">
         <div className="admin-content">
-          {activeTab === 'orders' ? renderOrders() : renderProducts()}
+          {renderContent()}
         </div>
       </main>
     </div>
