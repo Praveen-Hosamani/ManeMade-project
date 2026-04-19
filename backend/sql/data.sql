@@ -1,0 +1,12 @@
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Shenga Chutney', 20.00, 'In Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Organic Broccoli', 22.00, 'In Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Fresh Rotti', 15.00, 'In Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Black Grapes', 23.00, 'In Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Rainier Cherries', 29.00, 'Out of Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Grape Tomatoes', 18.00, 'In Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Ripe Papaya', 25.00, 'Out of Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Sweet Grapes', 28.00, 'In Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Snap Peas', 24.00, 'In Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Italian Parsley', 14.00, 'In Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Strawberry', 26.00, 'Out of Stock', 'Initial stock');
+INSERT INTO products (name, price, stock_status, updates) VALUES ('Organic Veggie', 21.00, 'In Stock', 'Initial stock');
