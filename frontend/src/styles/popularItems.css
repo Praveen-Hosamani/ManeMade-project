@@ -1,0 +1,104 @@
+/* src/styles/popularItems.css */
+
+.popular-items-section {
+  width: 90%;
+  max-width: 1400px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.popular-items-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  display: inline-block;
+}
+
+.popular-items-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: #ff6b00;
+  border-radius: 2px;
+}
+
+.items-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 20px 0;
+}
+
+.popular-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.item-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background-color: #fff;
+}
+
+.item-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.item-name {
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #444;
+  transition: color 0.3s ease;
+}
+
+/* Hover Effects - Subtler animation */
+.popular-item:hover .item-circle {
+  transform: translateY(-5px); /* Reduced vertical shift */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-color: #ff6b00;
+}
+
+.popular-item:hover .item-circle img {
+  transform: scale(1.05); /* Reduced zoom effect */
+}
+
+/* Name color remains the same on hover */
+.popular-item:hover .item-name {
+  color: #444; /* Keep original color */
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .items-grid {
+    gap: 20px;
+  }
+  
+  .item-circle {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .item-name {
+    font-size: 14px;
+  }
+}
