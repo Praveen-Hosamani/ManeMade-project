@@ -2,11 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/navbar.css';
 import { products } from '../data/products';
+import LoginModal from './LoginModal';
 
 const Navbar = ({ cartCount }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -107,7 +110,17 @@ const Navbar = ({ cartCount }) => {
       </div>
 
       <div className="navbar-actions">
-        <button className="action-btn">Login</button>
+        {user ? (
+          <div className="user-profile">
+            <svg className="profile-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span className="user-name">{user.firstName || user.email.split('@')[0]}</span>
+          </div>
+        ) : (
+          <button className="action-btn" onClick={() => setIsLoginModalOpen(true)}>Login</button>
+        )}
         <Link to="/cart" className="action-btn cart-btn">
           Cart
           <div className="cart-icon-wrapper">
@@ -120,6 +133,12 @@ const Navbar = ({ cartCount }) => {
           </div>
         </Link>
       </div>
+
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+        onLoginSuccess={(email) => setUser(email)}
+      />
     </nav>
   );
 };
