@@ -5,7 +5,7 @@ import '../styles/cart.css';
 const Cart = ({ cart, removeFromCart, updateQuantity, clearCart }) => {
   const navigate = useNavigate();
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  const deliveryCharge = cart.length > 0 ? 40 : 0;
+  const deliveryCharge = cart.length > 0 ? 8 : 0;
   const discount = subtotal * 0.06; // 6% discount that changes as cart increases
   const total = subtotal + deliveryCharge - discount;
 

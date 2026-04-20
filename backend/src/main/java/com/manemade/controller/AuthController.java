@@ -1,16 +1,14 @@
-package com.manemade.backend.controller;
+package com.manemade.controller;
 
-import com.manemade.backend.service.AuthService;
-import com.manemade.backend.model.User;
+import com.manemade.model.User;
+import com.manemade.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173") // Vite's default port
 public class AuthController {
 
     @Autowired
@@ -23,27 +21,28 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Email is required");
         }
         String otp = authService.generateOtp(email);
-        // We return the OTP to the frontend so it can be sent via EmailJS
-        return ResponseEntity.ok(Map.of("otp", otp, "message", "OTP generated successfully"));
+        return ResponseEntity.ok(Map.of(
+            "success", true, 
+            "message", "OTP generated successfully",
+            "otp", otp
+        ));
     }
 
     @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         String otp = request.get("otp");
-        
         if (email == null || otp == null) {
             return ResponseEntity.badRequest().body("Email and OTP are required");
         }
-        
-        boolean isValid = authService.verifyOtp(email, otp);
-        if (isValid) {
-            boolean isNewUser = authService.isNewUser(email);
+
+        if (authService.verifyOtp(email, otp)) {
             User user = authService.getUserByEmail(email);
+            boolean isNewUser = authService.isNewUser(email);
             return ResponseEntity.ok(Map.of(
-                "success", true, 
+                "success", true,
                 "isNewUser", isNewUser,
-                "user", user != null ? user : Map.of("email", email),
+                "user", user,
                 "message", "Login successful"
             ));
         } else {
@@ -56,11 +55,11 @@ public class AuthController {
         String email = request.get("email");
         String firstName = request.get("firstName");
         String lastName = request.get("lastName");
-        
+
         if (email == null || firstName == null || lastName == null) {
             return ResponseEntity.badRequest().body("Email, First Name, and Last Name are required");
         }
-        
+
         User user = authService.completeProfile(email, firstName, lastName);
         if (user != null) {
             return ResponseEntity.ok(Map.of("success", true, "user", user));

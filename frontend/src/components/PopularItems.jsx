@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/popularItems.css';
 
 const PopularItems = () => {
-  const items = [
-    { name: 'Rotti', image: '/Items/PopularProduts/Rotti.jpg' },
-    { name: 'Papaya', image: '/Items/PopularProduts/Papaya.jpg' },
-    { name: 'Shenga Chutney', image: '/Items/PopularProduts/Shenga Chutney.jpg' },
-    { name: 'Graphes', image: '/Items/PopularProduts/Graphes.jpg' },
-    { name: 'Tomatoes', image: '/Items/PopularProduts/Organic Grape Tomatoes.jpg' },
-    { name: 'Organic Broccoli', image: '/Items/PopularProduts/Organic Broccoli.jpg' },
-  ];
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/products')
+      .then(res => res.json())
+      .then(data => {
+        // Correct Order as requested:
+        // 1) Rotti, 2) shenga chutney, 3) sweet Grapes, 4) Ripe Papaya, 5) Organic Broccoli, 6) Tomatoes
+        const prescribedOrder = [
+          "Fresh Rotti",
+          "Shenga Chutney",
+          "Sweet Grapes",
+          "Ripe Papaya",
+          "Organic Broccoli",
+          "Grape Tomatoes"
+        ];
+
+        // Filter and Sort based on the prescribed order
+        const orderedItems = prescribedOrder
+          .map(name => data.find(item => item.name === name))
+          .filter(item => item !== undefined);
+
+        setItems(orderedItems);
+      })
+      .catch(err => console.error('Error fetching popular items:', err));
+  }, []);
 
   const scrollToBestSelling = () => {
     const section = document.getElementById('best-selling');

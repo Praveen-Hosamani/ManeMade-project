@@ -1,17 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/navbar.css';
-import { products } from '../data/products';
 import LoginModal from './LoginModal';
 
 const Navbar = ({ cartCount }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('manemade_user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  // Fetch all products for search
+  useEffect(() => {
+    fetch('http://localhost:8080/api/products')
+      .then(res => res.json())
+      .then(data => setProducts(data))
+      .catch(err => console.error('Error fetching products for navbar:', err));
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -137,7 +148,10 @@ const Navbar = ({ cartCount }) => {
       <LoginModal 
         isOpen={isLoginModalOpen} 
         onClose={() => setIsLoginModalOpen(false)} 
-        onLoginSuccess={(email) => setUser(email)}
+        onLoginSuccess={(userData) => {
+          setUser(userData);
+          localStorage.setItem('manemade_user', JSON.stringify(userData));
+        }}
       />
     </nav>
   );

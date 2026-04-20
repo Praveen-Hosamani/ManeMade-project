@@ -32,6 +32,19 @@ public class ProductController {
         return productService.saveProduct(product);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
+        return productService.getProductById(id).map(product -> {
+            product.setName(productDetails.getName());
+            product.setPrice(productDetails.getPrice());
+            product.setStockStatus(productDetails.getStockStatus());
+            product.setUpdates(productDetails.getUpdates());
+            product.setImage(productDetails.getImage());
+            product.setWeight(productDetails.getWeight());
+            return ResponseEntity.ok(productService.saveProduct(product));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);

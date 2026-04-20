@@ -1,13 +1,12 @@
-package com.manemade.backend.service;
+package com.manemade.service;
 
-import com.manemade.backend.model.User;
-import com.manemade.backend.repository.UserRepository;
+import com.manemade.model.User;
+import com.manemade.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class AuthService {
@@ -16,13 +15,20 @@ public class AuthService {
     private UserRepository userRepository;
 
     public String generateOtp(String email) {
-        String otp = String.format("%06d", new Random().nextInt(999999));
+        String otp = String.format("%06d", (int) (Math.random() * 1000000)); // 6-digit OTP
+        Optional<User> userOpt = userRepository.findByEmail(email);
         
-        User user = userRepository.findByEmail(email).orElse(new User(email));
+        boolean isNew = userOpt.isEmpty();
+        User user = userOpt.orElseGet(() -> {
+            User newUser = new User(email);
+            newUser.setCreatedAt(LocalDateTime.now());
+            return newUser;
+        });
+        
         user.setOtp(otp);
-        user.setOtpExpiry(LocalDateTime.now().plusMinutes(10));
+        user.setOtpExpiry(LocalDateTime.now().plusMinutes(5));
         userRepository.save(user);
-        
+        System.out.println("OTP for " + email + " is: " + otp);
         return otp;
     }
 
@@ -30,10 +36,7 @@ public class AuthService {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            if (user.getOtp() != null && user.getOtp().equals(otp) && 
-                user.getOtpExpiry().isAfter(LocalDateTime.now())) {
-                
-                // Clear OTP after successful verification
+            if (user.getOtp() != null && user.getOtp().equals(otp) && user.getOtpExpiry().isAfter(LocalDateTime.now())) {
                 user.setOtp(null);
                 user.setOtpExpiry(null);
                 userRepository.save(user);
@@ -61,5 +64,14 @@ public class AuthService {
             return userRepository.save(user);
         }
         return null;
+    }
+
+    // New management methods
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

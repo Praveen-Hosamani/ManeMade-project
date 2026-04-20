@@ -1,12 +1,14 @@
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Shenga Chutney', 20.00, 'In Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Organic Broccoli', 22.00, 'In Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Fresh Rotti', 15.00, 'In Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Black Grapes', 23.00, 'In Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Rainier Cherries', 29.00, 'Out of Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Grape Tomatoes', 18.00, 'In Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Ripe Papaya', 25.00, 'Out of Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Sweet Grapes', 28.00, 'In Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Snap Peas', 24.00, 'In Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Italian Parsley', 14.00, 'In Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Strawberry', 26.00, 'Out of Stock', 'Initial stock');
-INSERT INTO products (name, price, stock_status, updates) VALUES ('Organic Veggie', 21.00, 'In Stock', 'Initial stock');
+-- backend/sql/data.sql
+INSERT INTO products (name, price, stock_status, weight, image) VALUES 
+('Shenga Chutney', 20.0, 'In Stock', '250g', '/Items/PopularProduts/Shenga Chutney.jpg'),
+('Organic Broccoli', 22.0, 'In Stock', '500g', '/Items/PopularProduts/Organic Broccoli.jpg'),
+('Fresh Rotti', 15.0, 'In Stock', '5 pcs', '/Items/PopularProduts/Rotti.jpg'),
+('Black Grapes', 23.0, 'In Stock', '1kg', '/Items/PopularProduts/Graphess.jpg'),
+('Rainier Cherries', 29.0, 'Out of Stock', '250g', '/Items/PopularProduts/Jumbo Rainier Cherries.jpg'),
+('Grape Tomatoes', 18.0, 'In Stock', '250g', '/Items/PopularProduts/Organic Grape Tomatoes.jpg'),
+('Ripe Papaya', 25.0, 'Out of Stock', '1 pc', '/Items/PopularProduts/Papaya.jpg'),
+('Sweet Grapes', 28.0, 'In Stock', '1kg', '/Items/PopularProduts/Graphes.jpg'),
+('Snap Peas', 24.0, 'In Stock', '500g', '/Items/PopularProduts/Washed Sugar Snap Peas.jpg'),
+('Italian Parsley', 14.0, 'In Stock', '1 bunch', '/Items/PopularProduts/Organic Italian Parsley.jpg'),
+('Strawberry', 26.0, 'Out of Stock', '200g', '/Items/PopularProduts/Organic Strawberry.jpg'),
+('Organic Veggie', 21.0, 'In Stock', '500g', '/Items/PopularProduts/Organic Vegetable.jpg');

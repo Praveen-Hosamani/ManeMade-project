@@ -1,10 +1,15 @@
-package com.manemade.backend.model;
+package com.manemade.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -21,7 +26,8 @@ public class User {
     private String firstName;
     private String lastName;
 
-    public User() {}
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     public User(String email) {
         this.email = email;
@@ -45,4 +51,7 @@ public class User {
 
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

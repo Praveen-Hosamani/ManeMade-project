@@ -16,10 +16,13 @@ const Checkout = ({ cart, clearCart }) => {
       address: '',
       city: '',
       pincode: '',
+      email: '',
     };
   });
 
   const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [orderId, setOrderId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Persist address to localStorage
   useEffect(() => {
@@ -38,6 +41,10 @@ const Checkout = ({ cart, clearCart }) => {
     
     if (name === 'fullName') {
       if (value !== '' && !/^[A-Za-z\s]+$/.test(value)) return;
+    }
+
+    if (name === 'email') {
+      // Basic email syntax check while typing could be too intrusive, so we just set it
     }
 
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -70,6 +77,14 @@ const Checkout = ({ cart, clearCart }) => {
         alert('Please provide a complete and detailed address (House No, Street name, Area, etc.) for accurate delivery.');
         return;
       }
+
+      if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        const currentUser = JSON.parse(localStorage.getItem('manemade_user'));
+        if (!currentUser && !formData.email) {
+          alert('Please enter a valid email address for order updates.');
+          return;
+        }
+      }
     }
     setStep(prev => prev + 1);
   };
@@ -78,9 +93,57 @@ const Checkout = ({ cart, clearCart }) => {
     setStep(prev => prev - 1);
   };
 
-  const handlePlaceOrder = () => {
-    clearCart();
-    setStep(4);
+  const handlePlaceOrder = async () => {
+    setLoading(true);
+    const currentUser = JSON.parse(localStorage.getItem('manemade_user'));
+    
+    // Guest check: If not logged in, we use the email from the form
+    const emailToUse = currentUser ? currentUser.email : formData.email;
+    
+    if (!emailToUse) {
+      alert('Email is required for the order.');
+      setLoading(false);
+      return;
+    }
+
+    const orderData = {
+      fullName: formData.fullName,
+      phone: formData.phone,
+      address: formData.address,
+      city: formData.city,
+      pincode: formData.pincode,
+      email: currentUser ? currentUser.email : formData.email,
+      totalAmount: totalAmount,
+      paymentMethod: paymentMethod,
+      items: cart.map(item => ({
+        id: item.id,
+        quantity: item.quantity,
+        price: item.price
+      }))
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setOrderId(data.orderId);
+        clearCart();
+        setStep(4);
+      } else {
+        alert(data.message || 'Failed to place order. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+      alert('Connection error. Is the backend running?');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const calculateSubtotal = () => {
@@ -180,6 +243,17 @@ const Checkout = ({ cart, clearCart }) => {
                       required 
                     />
                   </div>
+                  <div className="form-field full-width">
+                    <label>Email Address</label>
+                    <input 
+                      type="email" 
+                      name="email" 
+                      placeholder="For order updates"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required 
+                    />
+                  </div>
                 </div>
               </form>
               <div className="step-actions">
@@ -209,7 +283,7 @@ const Checkout = ({ cart, clearCart }) => {
                   </div>
                   <div className="calc-row">
                     <span>Delivery Charge</span>
-                    <span>+ ₹40.00</span>
+                    <span>+ ₹8.00</span>
                   </div>
                   <div className="calc-row discount">
                     <span>Special Discount (6%)</span>
@@ -274,8 +348,8 @@ const Checkout = ({ cart, clearCart }) => {
 
               <div className="step-actions">
                 <button className="secondary-btn" onClick={prevStep}>Back</button>
-                <button className="primary-btn highlight" onClick={handlePlaceOrder}>
-                  Place Your Order
+                <button className="primary-btn highlight" onClick={handlePlaceOrder} disabled={loading}>
+                  {loading ? 'Processing...' : 'Place Your Order'}
                 </button>
               </div>
             </div>
@@ -292,7 +366,7 @@ const Checkout = ({ cart, clearCart }) => {
               <div className="order-info-card">
                 <div className="info-row">
                   <span>Order ID</span>
-                  <span className="value">#{Math.floor(Math.random() * 900000) + 100000}</span>
+                  <span className="value">#{orderId || 'PENDING'}</span>
                 </div>
                 <div className="info-row">
                   <span>Total Amount</span>

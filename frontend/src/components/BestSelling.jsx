@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/bestSelling.css';
-import { products } from '../data/products';
 
 const BestSelling = ({ onAddToCart }) => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/products')
+      .then(res => res.json())
+      .then(data => {
+        // Shuffle the items for "Best Selling" as requested ("hinde mundhe madu")
+        // This ensures the order is different from the fixed "Popular" section.
+        const shuffled = [...data].sort(() => Math.random() - 0.5);
+        setProducts(shuffled);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching products:', err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div className="loading-container">Loading fresh products for you...</div>;
 
   return (
     <section id="best-selling" className="best-selling-section">
@@ -21,17 +40,17 @@ const BestSelling = ({ onAddToCart }) => {
                 </div>
                 <div className="price-stock">
                   <span className="product-price">₹{product.price}</span>
-                  <span className={`product-stock ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                    {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                  <span className={`product-stock ${product.stockStatus === 'In Stock' ? 'in-stock' : 'out-of-stock'}`}>
+                    {product.stockStatus}
                   </span>
                 </div>
               </div>
               <button 
                 className="add-to-cart-btn" 
-                disabled={product.stock === 0}
+                disabled={product.stockStatus !== 'In Stock'}
                 onClick={() => onAddToCart(product)}
               >
-                {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                {product.stockStatus === 'In Stock' ? 'Add to Cart' : 'Out of Stock'}
               </button>
             </div>
           </div>

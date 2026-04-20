@@ -1,0 +1,113 @@
+﻿{
+    "value":  [
+                  {
+                      "id":  1,
+                      "name":  "Shenga Chutney",
+                      "price":  20.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  null,
+                      "image":  "/Items/PopularProduts/Shenga Chutney.jpg",
+                      "weight":  "250g"
+                  },
+                  {
+                      "id":  2,
+                      "name":  "Organic Broccoli",
+                      "price":  22.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  null,
+                      "image":  "/Items/PopularProduts/Organic Broccoli.jpg",
+                      "weight":  "500g"
+                  },
+                  {
+                      "id":  4,
+                      "name":  "Black Grapes",
+                      "price":  23.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  null,
+                      "image":  "/Items/PopularProduts/Graphess.jpg",
+                      "weight":  "1kg"
+                  },
+                  {
+                      "id":  6,
+                      "name":  "Grape Tomatoes",
+                      "price":  18.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  null,
+                      "image":  "/Items/PopularProduts/Organic Grape Tomatoes.jpg",
+                      "weight":  "250g"
+                  },
+                  {
+                      "id":  8,
+                      "name":  "Sweet Grapes",
+                      "price":  28.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  null,
+                      "image":  "/Items/PopularProduts/Graphes.jpg",
+                      "weight":  "1kg"
+                  },
+                  {
+                      "id":  9,
+                      "name":  "Snap Peas",
+                      "price":  24.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  null,
+                      "image":  "/Items/PopularProduts/Washed Sugar Snap Peas.jpg",
+                      "weight":  "500g"
+                  },
+                  {
+                      "id":  10,
+                      "name":  "Italian Parsley",
+                      "price":  14.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  null,
+                      "image":  "/Items/PopularProduts/Organic Italian Parsley.jpg",
+                      "weight":  "1 bunch"
+                  },
+                  {
+                      "id":  11,
+                      "name":  "Strawberry",
+                      "price":  26.0,
+                      "stockStatus":  "Out of Stock",
+                      "updates":  null,
+                      "image":  "/Items/PopularProduts/Organic Strawberry.jpg",
+                      "weight":  "200g"
+                  },
+                  {
+                      "id":  5,
+                      "name":  "Rainier Cherries",
+                      "price":  3.0,
+                      "stockStatus":  "Out of Stock",
+                      "updates":  "",
+                      "image":  "/Items/PopularProduts/Jumbo Rainier Cherries.jpg",
+                      "weight":  "250g"
+                  },
+                  {
+                      "id":  12,
+                      "name":  "Organic Veggie",
+                      "price":  6.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  "",
+                      "image":  "/Items/PopularProduts/Organic Vegetable.jpg",
+                      "weight":  "500g"
+                  },
+                  {
+                      "id":  3,
+                      "name":  "Fresh Rotti",
+                      "price":  10.0,
+                      "stockStatus":  "In Stock",
+                      "updates":  "",
+                      "image":  "/Items/PopularProduts/Rotti.jpg",
+                      "weight":  "5 pcs"
+                  },
+                  {
+                      "id":  7,
+                      "name":  "Ripe Papaya",
+                      "price":  12.0,
+                      "stockStatus":  "Out of Stock",
+                      "updates":  "",
+                      "image":  "/Items/PopularProduts/Papaya.jpg",
+                      "weight":  "1 pc"
+                  }
+              ],
+    "Count":  12
+}

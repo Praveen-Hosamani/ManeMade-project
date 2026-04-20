@@ -1,9 +1,11 @@
-package com.manemade.backend.repository;
+package com.manemade.repository;
 
-import com.manemade.backend.model.User;
+import com.manemade.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 }
