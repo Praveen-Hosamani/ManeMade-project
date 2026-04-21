@@ -7,6 +7,8 @@ import BestSelling from './components/BestSelling';
 import Cart from './components/Cart';
 import Checkout from './components/Checkout';
 import Admin from "./components/Admin.jsx";
+import UserProfile from './components/UserProfile';
+import MyOrders from './components/MyOrders';
 import './styles/App.css';
 
 // Home Component to group main page content
@@ -80,6 +82,8 @@ function AppContent() {
         />
         <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/my-orders" element={<MyOrders />} />
       </Routes>
     </div>
   );

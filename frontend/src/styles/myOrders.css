@@ -1,0 +1,222 @@
+/* myOrders.css */
+.orders-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.orders-header {
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.orders-header h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    font-weight: 800;
+}
+
+.orders-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.order-card {
+    background: #fff;
+    border-radius: 24px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.07);
+}
+
+.order-main {
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fcfdfe;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.order-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.order-id {
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 1.1rem;
+}
+
+.order-date {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.order-status-and-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.order-status-badge {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.order-status-badge[data-status="processing"] { background: #fff7ed; color: #ea580c; }
+.order-status-badge[data-status="delivered"] { background: #f0fdf4; color: #16a34a; }
+.order-status-badge[data-status="shipped"] { background: #f0f9ff; color: #0284c7; }
+
+.delete-order-btn {
+    background: #fff1f2;
+    color: #e11d48;
+    border: none;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.delete-order-btn:hover {
+    background: #e11d48;
+    color: white;
+    transform: scale(1.1);
+}
+
+.delete-order-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.order-total label {
+    display: block;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.order-total span {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0d9488;
+}
+
+.order-items-preview {
+    padding: 10px 25px;
+}
+
+.order-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f8fafc;
+}
+
+.order-item-row:last-child {
+    border-bottom: none;
+}
+
+.item-main-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.order-item-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9;
+}
+
+.item-name {
+    display: block;
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 0.95rem;
+}
+
+.item-qty {
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.item-price {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.order-footer {
+    padding: 20px 25px;
+    background: #f8fafc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f5f9;
+}
+
+.shipping-info label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.shipping-info p {
+    font-size: 0.85rem;
+    color: #475569;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+.track-btn {
+    background: white;
+    border: 1.5px solid #0d9488;
+    color: #0d9488;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.track-btn:hover {
+    background: #0d9488;
+    color: white;
+}
+
+@media (max-width: 640px) {
+    .order-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .order-footer {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+}

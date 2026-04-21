@@ -101,4 +101,14 @@ public class OrderController {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
         }
     }
+
+    @GetMapping("/user/{email}")
+    public ResponseEntity<?> getOrdersByUserEmail(@PathVariable String email) {
+        try {
+            List<Order> orders = orderRepository.findByEmail(email);
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
+        }
+    }
 }

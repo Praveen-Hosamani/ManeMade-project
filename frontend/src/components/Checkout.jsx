@@ -21,8 +21,15 @@ const Checkout = ({ cart, clearCart }) => {
   });
 
   const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [showQRCode, setShowQRCode] = useState(false);
+  const [payConfirm, setPayConfirm] = useState(false);
   const [orderId, setOrderId] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Reset payConfirm whenever modal is opened
+  useEffect(() => {
+    if (!showQRCode) setPayConfirm(false);
+  }, [showQRCode]);
 
   // Persist address to localStorage
   useEffect(() => {
@@ -93,7 +100,15 @@ const Checkout = ({ cart, clearCart }) => {
     setStep(prev => prev - 1);
   };
 
-  const handlePlaceOrder = async () => {
+  const handlePlaceOrder = () => {
+    if (paymentMethod === 'upi') {
+      setShowQRCode(true);
+    } else {
+      processOrder();
+    }
+  };
+
+  const processOrder = async () => {
     setLoading(true);
     const currentUser = JSON.parse(localStorage.getItem('manemade_user'));
     
@@ -134,6 +149,7 @@ const Checkout = ({ cart, clearCart }) => {
       if (response.ok && data.success) {
         setOrderId(data.orderId);
         clearCart();
+        setShowQRCode(false);
         setStep(4);
       } else {
         alert(data.message || 'Failed to place order. Please try again.');
@@ -387,6 +403,48 @@ const Checkout = ({ cart, clearCart }) => {
           )}
         </div>
       </div>
+
+      {showQRCode && (
+        <div className="payment-modal-overlay">
+          <div className="payment-modal-card fade-in">
+            <button className="close-modal" onClick={() => setShowQRCode(false)}>×</button>
+            <div className="payment-modal-header">
+              <h3>Scan & Pay</h3>
+              <p>Complete payment to proceed</p>
+            </div>
+            
+            <div className="qr-container">
+              <img 
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=8792331970-2@ybl&pn=ManeMade&am=${totalAmount}&cu=INR`)}`} 
+                alt="Payment QR Code" 
+                className="payment-qr"
+              />
+              <div className="upi-id-badge">8792331970-2@ybl</div>
+            </div>
+
+            <div className="payment-amount-section">
+              <span className="pay-label">Total to Pay</span>
+              <h2 className="pay-amount">₹{totalAmount.toFixed(2)}</h2>
+            </div>
+
+            <div className="modal-actions">
+              <button 
+                className={`primary-btn highlight full-width ${payConfirm ? 'confirming' : ''}`} 
+                onClick={() => {
+                  if (!payConfirm) {
+                    setPayConfirm(true);
+                  } else {
+                    processOrder();
+                  }
+                }}
+                disabled={loading}
+              >
+                {loading ? 'Verifying...' : (payConfirm ? 'Confirm: I Have Paid' : 'i have Paid')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
