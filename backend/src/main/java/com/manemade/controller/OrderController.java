@@ -73,4 +73,32 @@ public class OrderController {
             ));
         }
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody Map<String, String> request) {
+        try {
+            String newStatus = request.get("status");
+            return orderRepository.findById(id).map(order -> {
+                order.setStatus(newStatus);
+                orderRepository.save(order);
+                return ResponseEntity.ok(Map.of("success", true, "message", "Status updated"));
+            }).orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
+        try {
+            if (orderRepository.existsById(id)) {
+                orderRepository.deleteById(id);
+                return ResponseEntity.ok(Map.of("success", true, "message", "Order deleted"));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
+        }
+    }
 }

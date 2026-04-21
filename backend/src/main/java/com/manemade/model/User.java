@@ -29,6 +29,8 @@ public class User {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    public User() {}
+
     public User(String email) {
         this.email = email;
     }

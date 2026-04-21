@@ -142,6 +142,36 @@ const Admin = () => {
     setShowEditor(true);
   };
 
+  const handleUpdateOrderStatus = async (orderId, newStatus) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/orders/${orderId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (response.ok) {
+        fetchOrders(); // Refresh orders
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
+  const handleDeleteOrder = async (orderId) => {
+    if (window.confirm('Permanent delete this order?')) {
+      try {
+        const response = await fetch(`http://localhost:8080/api/orders/${orderId}`, {
+          method: 'DELETE'
+        });
+        if (response.ok) {
+          setOrders(orders.filter(o => o.id !== orderId));
+        }
+      } catch (error) {
+        console.error('Error deleting order:', error);
+      }
+    }
+  };
+
   const renderOrders = () => (
     <div className="admin-view fade-in">
       <div className="section-header">
@@ -156,7 +186,7 @@ const Admin = () => {
             <th>Delivery Address</th>
             <th>Amount</th>
             <th>Status</th>
-            <th>Action</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -191,11 +221,26 @@ const Admin = () => {
                 </div>
               </td>
               <td>
-                <span className={`status-badge ${order.status.toLowerCase()}`}>
-                  {order.status}
-                </span>
+                <select 
+                  className={`status-select ${order.status.toLowerCase()}`}
+                  value={order.status}
+                  onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
+                >
+                  <option value="Processing">Processing</option>
+                  <option value="Shipping">Shipping</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
               </td>
-              <td><button className="action-btn">Manage</button></td>
+              <td>
+                <button 
+                  className="icon-btn delete" 
+                  title="Delete Order"
+                  onClick={() => handleDeleteOrder(order.id)}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

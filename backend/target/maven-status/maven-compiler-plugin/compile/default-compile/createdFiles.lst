@@ -1,0 +1,15 @@
+com\manemade\repository\OrderRepository.class
+com\manemade\config\CorsConfig.class
+com\manemade\model\Product.class
+com\manemade\repository\UserRepository.class
+com\manemade\model\Order.class
+com\manemade\controller\AuthController.class
+com\manemade\model\OrderItem.class
+com\manemade\controller\OrderController.class
+com\manemade\repository\ProductRepository.class
+com\manemade\BackendApplication.class
+com\manemade\service\AuthService.class
+com\manemade\controller\UserController.class
+com\manemade\service\ProductService.class
+com\manemade\model\User.class
+com\manemade\controller\ProductController.class

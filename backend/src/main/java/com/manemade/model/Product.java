@@ -28,6 +28,9 @@ public class Product {
     private String image;
     private String weight;
 
+    // Default constructor for JPA
+    public Product() {}
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
