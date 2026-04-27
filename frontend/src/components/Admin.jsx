@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/admin.css';
+import AdminLogin from './AdminLogin';
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState('orders');
@@ -17,6 +18,14 @@ const Admin = () => {
     updates: ''
   });
   const [orders, setOrders] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return sessionStorage.getItem('admin_authenticated') === 'true';
+  });
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('admin_authenticated');
+    setIsAuthenticated(false);
+  };
 
   // Fetch products from backend
   const fetchProducts = async () => {
@@ -61,6 +70,8 @@ const Admin = () => {
   };
 
   React.useEffect(() => {
+    if (!isAuthenticated) return;
+    
     if (activeTab === 'users') {
       fetchUsers();
     } else if (activeTab === 'products') {
@@ -68,7 +79,7 @@ const Admin = () => {
     } else if (activeTab === 'orders') {
       fetchOrders();
     }
-  }, [activeTab]);
+  }, [activeTab, isAuthenticated]);
 
   const handleDeleteUser = async (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
@@ -456,11 +467,15 @@ const Admin = () => {
     }
   };
 
+  if (!isAuthenticated) {
+    return <AdminLogin onLogin={() => setIsAuthenticated(true)} />;
+  }
+
   return (
     <div className="admin-page">
       <aside className="admin-sidebar">
         <div className="admin-logo">
-          <h2>ManeMade Admin</h2>
+          <h2>Admin Dashboard</h2>
         </div>
         <nav className="admin-nav">
           <button 
@@ -483,7 +498,7 @@ const Admin = () => {
           </button>
         </nav>
         <div className="sidebar-footer">
-          <button className="logout-btn">Log Out</button>
+          <button className="logout-btn" onClick={handleLogout}>Log Out</button>
         </div>
       </aside>
 
